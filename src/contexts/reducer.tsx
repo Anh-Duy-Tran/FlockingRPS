@@ -3,43 +3,55 @@ interface Vector {
   y: number
 }
 
-interface Boid {
-  type : "rock" | "paper" | "scissor";
+type BoidType = "rock" | "paper" | "scissor";
+
+export interface Boid {
+  type : BoidType
   
   position : Vector
-
   velocity : Vector
-
   acceleration : Vector
 }
 
-export interface BoidStateType {
-  boids: Array<Boid> | null;
-}
+export type Action = 
+  | { type : "set-adding-boid-type"; payload : BoidType | null }
+  | { type : "add-new-boid"; payload : Boid }
+
 
 export const reducer = (
   state: BoidStateType,
-  action: { type: string }
-): BoidStateType => {
+  action: Action
+  ): BoidStateType => {
+    
+    switch (action.type) {
+      
+      
+      case "set-adding-boid-type": {
+        return { 
+          ...state,
+          addingBoidType : action.payload
+        };
+      }
+      
+      case "add-new-boid" : {
+        return {
+          ...state,
+          boids : [...state.boids, action.payload]
+        }
+      }
+      
+      default: {
+        return state;
+      }
+    }
+  };
+
+export interface BoidStateType {
+  boids: Array<Boid>;
+  addingBoidType : BoidType | null;
+}
   
-  switch (action.type) {
-    case "": {
-      return {
-        ...state,
-      };
-    }
-
-    case "test": {
-      console.log("test dispatch");
-      return { ...state };
-    }
-
-    default: {
-      return state;
-    }
-  }
-};
-
 export const initialState: BoidStateType = {
   boids: [],
+  addingBoidType: null
 };

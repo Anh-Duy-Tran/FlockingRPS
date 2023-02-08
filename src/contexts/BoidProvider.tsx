@@ -1,9 +1,9 @@
-import { useContext, createContext, useReducer } from "react";
-import { reducer, initialState, BoidStateType } from "./reducer";
+import { createContext, useReducer } from "react";
+import { reducer, initialState, BoidStateType, Action } from "./reducer";
 
 interface BoidContextValue {
   state: BoidStateType;
-  dispatch: React.Dispatch<{ type: string }>;
+  dispatch: React.Dispatch<Action>;
 }
 
 export const BoidContext = createContext<BoidContextValue>({ state : initialState, dispatch : () => {}});

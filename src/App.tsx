@@ -1,15 +1,13 @@
-import { Container } from '@mui/system'
-import Boid from './components/Boid'
-import { BoidProvider } from './contexts/BoidProvider'
+import { BoidProvider } from "./contexts/BoidProvider";
+import { MainPage } from "./pages/MainPage";
+
 
 function App() {
   return (
     <BoidProvider>
-      <Container>
-        <Boid/>
-      </Container>
+      <MainPage/>
     </BoidProvider>
-  )
+  );
 }
 
-export default App
+export default App;

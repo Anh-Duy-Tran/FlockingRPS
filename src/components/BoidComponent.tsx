@@ -1,33 +1,33 @@
-import { SxProps, Theme, Typography } from '@mui/material';
-import React from 'react'
-import { Boid } from '../contexts/reducer';
+import { SxProps, Theme, Typography } from "@mui/material";
+import React from "react";
+import { Boid } from "../contexts/reducer";
 
-
-const BoidStyle = (x : number, y : number, width : number) : SxProps<Theme> => {
-  const fontSize : number = width * 0.035;
-  const offSetPercentage : number = ((fontSize / 2)*100) / width;
+const BoidStyle = (x: number, y: number, width: number): SxProps<Theme> => {
+  const fontSize: number = width * 0.035;
+  const offSetPercentage: number = ((fontSize / 2) * 100) / width;
   return {
     userSelect: "none",
     fontSize: `${fontSize}px`,
     position: "absolute",
     top: `${x - offSetPercentage}%`,
-    left: `${y - offSetPercentage}%`
-  }
-}
-
+    left: `${y - offSetPercentage}%`,
+    transition: "0.1s ease-in-out",
+  };
+};
 
 interface BoidComponentProps {
-  boid : Boid;
-  width : number
+  boid: Boid;
+  width: number;
 }
 
-export const BoidComponent: React.FC<BoidComponentProps> = ({ boid, width }) => {
-  console.log(boid)
+export const BoidComponent: React.FC<BoidComponentProps> = ({
+  boid,
+  width,
+}) => {
+  console.log(boid);
   return (
     <Typography sx={BoidStyle(boid.position.x, boid.position.y, width)}>
-      {
-        boid.type === "rock" ? "🪨" : boid.type === "paper" ? "📜" : "✂️"
-      }
+      {boid.type === "rock" ? "🪨" : boid.type === "paper" ? "📜" : "✂️"}
     </Typography>
   );
-}
+};

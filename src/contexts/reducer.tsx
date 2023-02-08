@@ -48,9 +48,11 @@ export const reducer = (
 export interface BoidStateType {
   boids: Array<Boid>;
   addingBoidType : BoidType | null;
+  boidSize : number
 }
   
 export const initialState: BoidStateType = {
   boids: [],
   addingBoidType: null,
+  boidSize : 20
 };

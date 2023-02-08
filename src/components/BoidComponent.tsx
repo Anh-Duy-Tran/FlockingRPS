@@ -3,25 +3,28 @@ import React from 'react'
 import { Boid } from '../contexts/reducer';
 
 
-const BoidStyle = (x : number, y : number) : SxProps<Theme> => {
+const BoidStyle = (x : number, y : number, width : number) : SxProps<Theme> => {
+  const fontSize : number = width * 0.035;
+  const offSetPercentage : number = ((fontSize / 2)*100) / width;
   return {
     userSelect: "none",
-    fontSize: 20,
+    fontSize: `${fontSize}px`,
     position: "absolute",
-    top: `${x}%`,
-    left: `${y}%`
+    top: `${x - offSetPercentage}%`,
+    left: `${y - offSetPercentage}%`
   }
 }
 
 
 interface BoidComponentProps {
-  boid : Boid
+  boid : Boid;
+  width : number
 }
 
-export const BoidComponent: React.FC<BoidComponentProps> = ({ boid }) => {
+export const BoidComponent: React.FC<BoidComponentProps> = ({ boid, width }) => {
   console.log(boid)
   return (
-    <Typography sx={BoidStyle(boid.position.x, boid.position.y)}>
+    <Typography sx={BoidStyle(boid.position.x, boid.position.y, width)}>
       {
         boid.type === "rock" ? "🪨" : boid.type === "paper" ? "📜" : "✂️"
       }

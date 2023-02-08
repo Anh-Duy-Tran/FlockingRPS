@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { BoidContext } from "../contexts/BoidProvider";
 import { Boid } from "../contexts/reducer";
 import { BoidComponent } from "./BoidComponent";
+import { useElementSize } from 'usehooks-ts';
 
 const BoardStyle: SxProps<Theme> = {
   height: "100%",
@@ -18,7 +19,9 @@ const zeroVec = {
 
 export const Board: React.FC = ({}) => {
   const { state, dispatch } = useContext(BoidContext);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);  
+  const [squareRef, { width }] = useElementSize<HTMLDivElement>();
+
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (state.addingBoidType === null) {
@@ -29,8 +32,8 @@ export const Board: React.FC = ({}) => {
     }
 
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientY - 10 - rect.top) * 100) / rect.height;
-    const y = ((e.clientX - 10 - rect.left) * 100) / rect.width;
+    const x = ((e.clientY - rect.top) * 100) / rect.height;
+    const y = ((e.clientX - rect.left) * 100) / rect.width;
 
     const newBoid: Boid = {
       type: state.addingBoidType,
@@ -44,10 +47,10 @@ export const Board: React.FC = ({}) => {
 
   return (
     <>
-      <Box onClick={handleClick} sx={BoardStyle}>
+      <Box ref={squareRef} onClick={handleClick} sx={BoardStyle}>
         {
           state.boids.map(
-            boid => <BoidComponent boid={boid}/>
+            boid => <BoidComponent boid={boid} width={width}/>
           )
         }
       </Box>

@@ -25,7 +25,6 @@ export const reducer = (
     
     switch (action.type) {
       
-      
       case "set-adding-boid-type": {
         return { 
           ...state,
@@ -53,5 +52,5 @@ export interface BoidStateType {
   
 export const initialState: BoidStateType = {
   boids: [],
-  addingBoidType: null
+  addingBoidType: null,
 };

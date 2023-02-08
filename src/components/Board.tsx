@@ -8,6 +8,7 @@ const BoardStyle: SxProps<Theme> = {
   height: "100%",
   aspectRatio: "1 / 1",
   border: "dashed",
+  position : "relative"
 };
 
 const zeroVec = {
@@ -28,8 +29,8 @@ export const Board: React.FC = ({}) => {
     }
 
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.left;
-    const y = (e.clientY - rect.top) / rect.top;
+    const x = ((e.clientY - 10 - rect.top) * 100) / rect.height;
+    const y = ((e.clientX - 10 - rect.left) * 100) / rect.width;
 
     const newBoid: Boid = {
       type: state.addingBoidType,

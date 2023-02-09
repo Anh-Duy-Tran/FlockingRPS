@@ -13,11 +13,6 @@ const BoardStyle: SxProps<Theme> = {
   position: "relative",
 };
 
-const zeroVec = {
-  x: 0,
-  y: 0,
-};
-
 const frameRate : number = 30;
 
 export const Board: React.FC = ({}) => {
@@ -32,7 +27,7 @@ export const Board: React.FC = ({}) => {
     }
     const newBoids: Boid[] = updateAllBoid(state.boids);
     dispatch({ type : "update-all-boid", payload : newBoids });
-    setTimeout(() => setFrame(frame + 1), 1000/60);
+    setTimeout(() => setFrame(frame + 1), 1000/30);
 
   }, [state.isRunning, frame]);
 
@@ -51,8 +46,14 @@ export const Board: React.FC = ({}) => {
     const newBoid: Boid = {
       type: state.addingBoidType,
       position: { x, y },
-      velocity: zeroVec,
-      acceleration: zeroVec,
+      velocity: {
+        x: Math.random()/10,
+        y: Math.random()/10,
+      },
+      acceleration: {
+        x: Math.random()/100,
+        y: Math.random()/100,
+      },
     };
 
     dispatch({ type: "add-new-boid", payload: newBoid });
@@ -62,7 +63,7 @@ export const Board: React.FC = ({}) => {
     <>
       <Box ref={squareRef} onClick={handleClick} sx={BoardStyle}>
         {state.boids.map((boid, i) => (
-          <BoidComponent key={i} boid={boid} width={width} />
+          <BoidComponent key={i} boid={boid} width={width} drawVec={true}/>
         ))}
       </Box>
       <Snackbar

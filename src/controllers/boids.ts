@@ -5,6 +5,9 @@ interface Vector {
   y : number
 }
 
+const PERCEPTION_RADIUS : number = 10;
+
+
 const vecAdd = (a : Vector, b : Vector) : Vector => {
   return {
     x : a.x + b.x,

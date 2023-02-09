@@ -24,7 +24,6 @@ export const BoidComponent: React.FC<BoidComponentProps> = ({
   boid,
   width,
 }) => {
-  console.log(boid);
   return (
     <Typography sx={BoidStyle(boid.position.x, boid.position.y, width)}>
       {boid.type === "rock" ? "🪨" : boid.type === "paper" ? "📜" : "✂️"}

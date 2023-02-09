@@ -16,6 +16,9 @@ export interface Boid {
 export type Action = 
   | { type : "set-adding-boid-type"; payload : BoidType | null }
   | { type : "add-new-boid"; payload : Boid }
+  | { type : "update-all-boid"; payload : Boid[] }
+  | { type : "start" }
+  | { type : "stop" }
 
 
 export const reducer = (
@@ -36,6 +39,27 @@ export const reducer = (
         return {
           ...state,
           boids : [...state.boids, action.payload]
+        }
+      }
+
+      case "update-all-boid" : {
+        return {
+          ...state,
+          boids : action.payload
+        }
+      }
+      
+      case "start" : {
+        return {
+          ...state,
+          isRunning : true
+        }
+      }
+
+      case "stop" : {
+        return {
+          ...state,
+          isRunning : false
         }
       }
       

@@ -4,6 +4,7 @@ import { BoidContext } from "../contexts/BoidProvider";
 import { Boid } from "../contexts/reducer";
 import { BoidComponent } from "./BoidComponent";
 import { useElementSize } from "usehooks-ts";
+import updateAllBoid from "../controllers/boids";
 
 const BoardStyle: SxProps<Theme> = {
   height: "100%",
@@ -17,28 +18,23 @@ const zeroVec = {
   y: 0,
 };
 
+const frameRate : number = 30;
+
 export const Board: React.FC = ({}) => {
   const [frame, setFrame] = useState(0);
   const { state, dispatch } = useContext(BoidContext);
   const [message, setMessage] = useState<string | null>(null);
   const [squareRef, { width }] = useElementSize<HTMLDivElement>();
 
-
   useEffect(() => {
-    let intervalId : ReturnType<typeof setInterval>;
-    if (state.isRunning) {
-      intervalId = setInterval(() => {
-        
-        setFrame(frame + 1);
-      }, 1000 / 60);
+    if (!state.isRunning) {
+      return;
     }
-    return () => {
-      clearInterval(intervalId);
-    };
+    const newBoids: Boid[] = updateAllBoid(state.boids);
+    dispatch({ type : "update-all-boid", payload : newBoids });
+    setTimeout(() => setFrame(frame + 1), 1000/60);
+
   }, [state.isRunning, frame]);
-
-
-  console.log('123');
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (state.addingBoidType === null) {
@@ -65,8 +61,8 @@ export const Board: React.FC = ({}) => {
   return (
     <>
       <Box ref={squareRef} onClick={handleClick} sx={BoardStyle}>
-        {state.boids.map((boid) => (
-          <BoidComponent boid={boid} width={width} />
+        {state.boids.map((boid, i) => (
+          <BoidComponent key={i} boid={boid} width={width} />
         ))}
       </Box>
       <Snackbar
